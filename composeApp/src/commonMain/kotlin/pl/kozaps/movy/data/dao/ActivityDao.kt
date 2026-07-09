@@ -9,7 +9,7 @@ import pl.kozaps.movy.data.model.ActivityRecord
 
 @Dao
 interface ActivityDao {
-    @Query("SELECT * FROM ActivityRecord ORDER BY startTime DESC")
+    @Query("SELECT * FROM ActivityRecord ORDER BY startTime DESC LIMIT 20")
     fun getAllActivities(): Flow<List<ActivityRecord>>
 
     @Query("SELECT * FROM ActivityRecord ORDER BY startTime DESC LIMIT 1")

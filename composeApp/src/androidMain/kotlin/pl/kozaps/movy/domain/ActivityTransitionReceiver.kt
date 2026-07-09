@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import com.google.android.gms.location.ActivityTransitionResult
 import com.google.android.gms.location.DetectedActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import pl.kozaps.movy.domain.model.ActivityType
@@ -19,7 +22,16 @@ class ActivityTransitionReceiver : BroadcastReceiver(), KoinComponent {
             result?.transitionEvents?.lastOrNull()?.let { event ->
                 val type = event.activityType.toActivityType()
 
-                activityRepository.emitActivity(type, 100)
+                val pendingResult = goAsync()
+                val job = activityRepository.emitActivity(type, 100)
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        job.join()
+                    } finally {
+                        pendingResult.finish()
+                    }
+                }
             }
         }
     }

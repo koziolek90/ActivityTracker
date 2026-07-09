@@ -19,7 +19,7 @@
 
         <receiver
             android:name=".domain.ActivityTransitionReceiver"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:exported="true"

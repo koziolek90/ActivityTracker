@@ -4,5 +4,7 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSMotionUsageDescription</key>
+	<string>Aplikacja potrzebuje dostępu do czujników ruchu, aby automatycznie wykrywać Twoją aktywność fizyczną (chodzenie, bieganie, jazda).</string>
 </dict>
 </plist>

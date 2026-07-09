@@ -3,6 +3,7 @@ package pl.kozaps.movy.domain
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,10 +12,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import pl.kozaps.movy.common.debugLog
 import pl.kozaps.movy.common.getPlatformName
 import pl.kozaps.movy.data.dao.ActivityDao
@@ -31,7 +32,7 @@ class ActivityRepository(
 
     val history: StateFlow<List<String>> = activityDao.getAllActivities()
         .map { records ->
-            records.take(20).map { record ->
+            records.map { record ->
                 val localTime = record.startTime.toLocalDateTime(TimeZone.currentSystemDefault())
                 val timestamp = "${localTime.hour.toString().padStart(2, '0')}:${localTime.minute.toString().padStart(2, '0')}:${localTime.second.toString().padStart(2, '0')}"
                 "[$timestamp] ${record.type.name} (${record.confidence}%)"
@@ -43,7 +44,7 @@ class ActivityRepository(
             initialValue = emptyList()
         )
 
-    fun emitActivity(type: ActivityType, confidence: Int = 100) {
+    fun emitActivity(type: ActivityType, confidence: Int = 100): Job {
         _activityEvents.tryEmit(type)
         
         val now = Clock.System.now()
@@ -51,7 +52,7 @@ class ActivityRepository(
         // Logging
         debugLog("Tracker", "MovyLog: Emitting activity: $type ($confidence%)")
         
-        repositoryScope.launch {
+        return repositoryScope.launch {
             handleNewActivity(type, confidence, now)
         }
     }

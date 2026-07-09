@@ -12,8 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,8 +26,8 @@ import pl.kozaps.movy.ui.MainViewModel
 fun App() {
     MaterialTheme {
         val viewModel = koinViewModel<MainViewModel>()
-        val activityType by viewModel.currentActivity.collectAsState()
-        val history by viewModel.history.collectAsState()
+        val activityType by viewModel.currentActivity.collectAsStateWithLifecycle()
+        val history by viewModel.history.collectAsStateWithLifecycle()
 
         Scaffold { paddingValues ->
             Column(
