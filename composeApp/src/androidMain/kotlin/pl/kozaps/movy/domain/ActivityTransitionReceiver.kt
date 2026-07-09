@@ -19,8 +19,7 @@ class ActivityTransitionReceiver : BroadcastReceiver(), KoinComponent {
             result?.transitionEvents?.lastOrNull()?.let { event ->
                 val type = event.activityType.toActivityType()
 
-
-                activityRepository.emitActivity(type)
+                activityRepository.emitActivity(type, 100)
             }
         }
     }

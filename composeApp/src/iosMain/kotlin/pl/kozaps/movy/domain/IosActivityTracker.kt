@@ -17,7 +17,13 @@ class IosActivityTracker(
 
         motionManager.startActivityUpdatesToQueue(NSOperationQueue.mainQueue) { activity ->
             activity?.let {
-                activityRepository.emitActivity(it.toActivityType())
+                val confidence = when (it.confidence) {
+                    platform.CoreMotion.CMMotionActivityConfidenceLow -> 33
+                    platform.CoreMotion.CMMotionActivityConfidenceMedium -> 66
+                    platform.CoreMotion.CMMotionActivityConfidenceHigh -> 100
+                    else -> 0
+                }
+                activityRepository.emitActivity(it.toActivityType(), confidence)
             }
         }
     }
