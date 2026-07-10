@@ -2,7 +2,7 @@ package pl.kozaps.movy.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlin.time.Instant
+import kotlinx.datetime.Instant
 import pl.kozaps.movy.domain.model.ActivityType
 
 @Entity

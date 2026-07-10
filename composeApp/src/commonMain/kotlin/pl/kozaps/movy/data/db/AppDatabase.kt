@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
 import androidx.room.TypeConverter
-import kotlin.time.Instant
+import kotlinx.datetime.Instant
 import pl.kozaps.movy.data.dao.ActivityDao
 import pl.kozaps.movy.data.model.ActivityRecord
 import pl.kozaps.movy.domain.model.ActivityType

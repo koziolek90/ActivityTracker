@@ -7,12 +7,14 @@ import pl.kozaps.movy.data.db.AppDatabase
 import pl.kozaps.movy.data.db.getRoomDatabase
 import pl.kozaps.movy.domain.ActivityRepository
 import pl.kozaps.movy.ui.MainViewModel
+import pl.kozaps.movy.ui.StatisticsViewModel
 
 expect val platformModule: Module
 
 val commonModule = module {
     single { ActivityRepository(get()) }
     viewModel { MainViewModel(get(), get()) }
+    viewModel { StatisticsViewModel(get()) }
     
     single<AppDatabase> { getRoomDatabase(get()) }
     single { get<AppDatabase>().activityDao() }

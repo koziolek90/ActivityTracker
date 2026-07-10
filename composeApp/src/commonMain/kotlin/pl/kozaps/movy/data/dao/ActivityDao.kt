@@ -12,6 +12,9 @@ interface ActivityDao {
     @Query("SELECT * FROM ActivityRecord ORDER BY startTime DESC LIMIT 20")
     fun getAllActivities(): Flow<List<ActivityRecord>>
 
+    @Query("SELECT * FROM ActivityRecord WHERE startTime >= :since")
+    fun getActivitiesSince(since: kotlin.time.Instant): Flow<List<ActivityRecord>>
+
     @Query("SELECT * FROM ActivityRecord ORDER BY startTime DESC LIMIT 1")
     suspend fun getLastActivity(): ActivityRecord?
 

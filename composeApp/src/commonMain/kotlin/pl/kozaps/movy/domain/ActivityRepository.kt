@@ -57,6 +57,8 @@ class ActivityRepository(
         }
     }
 
+    fun getActivitiesSince(since: Instant) = activityDao.getActivitiesSince(since)
+
     private suspend fun handleNewActivity(type: ActivityType, confidence: Int, now: Instant) {
         val lastRecord = activityDao.getLastActivity()
         
