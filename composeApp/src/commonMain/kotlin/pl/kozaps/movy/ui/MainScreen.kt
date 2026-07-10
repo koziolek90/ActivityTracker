@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import movy.composeapp.generated.resources.Res
@@ -127,7 +128,7 @@ fun MainContent(
 @Composable
 private fun StatusCard(activityType: ActivityType) {
     val backgroundColor = when (activityType) {
-        ActivityType.STILL -> MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f)
+        ActivityType.STILL -> MaterialTheme.colorScheme.secondaryContainer
         ActivityType.WALKING -> Color(0xFFE8F5E9)
         ActivityType.RUNNING -> Color(0xFFFFF3E0)
         ActivityType.ON_BICYCLE -> Color(0xFFE3F2FD)
@@ -241,4 +242,22 @@ private fun ActivityType.toPolishName(): String = when (this) {
     ActivityType.ON_BICYCLE -> "Rower"
     ActivityType.IN_VEHICLE -> "W aucie / Autobusie"
     ActivityType.UNKNOWN -> "Nieznana"
+}
+
+@Preview
+@Composable
+private fun PreviewStatusCard() {
+    MaterialTheme {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            StatusCard(ActivityType.STILL)
+            StatusCard(ActivityType.WALKING)
+            StatusCard(ActivityType.RUNNING)
+            StatusCard(ActivityType.ON_BICYCLE)
+            StatusCard(ActivityType.IN_VEHICLE)
+            StatusCard(ActivityType.UNKNOWN)
+        }
+    }
 }
