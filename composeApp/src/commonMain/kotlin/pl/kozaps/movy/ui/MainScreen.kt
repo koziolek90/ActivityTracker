@@ -1,6 +1,7 @@
 package pl.kozaps.movy.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -61,7 +62,7 @@ fun MainContent(
                         style = MaterialTheme.typography.headlineMedium
                     )
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
                 )
             )
@@ -127,21 +128,22 @@ fun MainContent(
 
 @Composable
 private fun StatusCard(activityType: ActivityType) {
+    val isDark = isSystemInDarkTheme()
     val backgroundColor = when (activityType) {
         ActivityType.STILL -> MaterialTheme.colorScheme.secondaryContainer
-        ActivityType.WALKING -> Color(0xFFE8F5E9)
-        ActivityType.RUNNING -> Color(0xFFFFF3E0)
-        ActivityType.ON_BICYCLE -> Color(0xFFE3F2FD)
-        ActivityType.IN_VEHICLE -> Color(0xFFF3E5F5)
+        ActivityType.WALKING -> if (isDark) Color(0xFF1B3320) else Color(0xFFE8F5E9)
+        ActivityType.RUNNING -> if (isDark) Color(0xFF3E2723) else Color(0xFFFFF3E0)
+        ActivityType.ON_BICYCLE -> if (isDark) Color(0xFF0D47A1).copy(alpha = 0.3f) else Color(0xFFE3F2FD)
+        ActivityType.IN_VEHICLE -> if (isDark) Color(0xFF311B92).copy(alpha = 0.3f) else Color(0xFFF3E5F5)
         else -> MaterialTheme.colorScheme.surfaceVariant
     }
 
     val contentColor = when (activityType) {
         ActivityType.STILL -> MaterialTheme.colorScheme.onSecondaryContainer
-        ActivityType.WALKING -> Color(0xFF2E7D32)
-        ActivityType.RUNNING -> Color(0xFFE65100)
-        ActivityType.ON_BICYCLE -> Color(0xFF1565C0)
-        ActivityType.IN_VEHICLE -> Color(0xFF7B1FA2)
+        ActivityType.WALKING -> if (isDark) Color(0xFF81C784) else Color(0xFF2E7D32)
+        ActivityType.RUNNING -> if (isDark) Color(0xFFFFB74D) else Color(0xFFE65100)
+        ActivityType.ON_BICYCLE -> if (isDark) Color(0xFF64B5F6) else Color(0xFF1565C0)
+        ActivityType.IN_VEHICLE -> if (isDark) Color(0xFFB39DDB) else Color(0xFF7B1FA2)
         else -> MaterialTheme.colorScheme.onSurfaceVariant
     }
 
@@ -244,12 +246,13 @@ private fun ActivityType.toPolishName(): String = when (this) {
     ActivityType.UNKNOWN -> "Nieznana"
 }
 
-@Preview
+@Preview(name = "Light Mode")
+@Preview(name = "Dark Mode", showBackground = true, uiMode = 32) // uiMode = 32 is UI_MODE_NIGHT_YES
 @Composable
 private fun PreviewStatusCard() {
-    MaterialTheme {
+    MovyTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(16.dp).background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             StatusCard(ActivityType.STILL)
