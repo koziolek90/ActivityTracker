@@ -1,18 +1,36 @@
 package pl.kozaps.movy.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -128,22 +146,22 @@ fun MainContent(
 
 @Composable
 private fun StatusCard(activityType: ActivityType) {
-    val isDark = isSystemInDarkTheme()
+    val activityColors = LocalActivityColors.current
     val backgroundColor = when (activityType) {
         ActivityType.STILL -> MaterialTheme.colorScheme.secondaryContainer
-        ActivityType.WALKING -> if (isDark) Color(0xFF1B3320) else Color(0xFFE8F5E9)
-        ActivityType.RUNNING -> if (isDark) Color(0xFF3E2723) else Color(0xFFFFF3E0)
-        ActivityType.ON_BICYCLE -> if (isDark) Color(0xFF0D47A1).copy(alpha = 0.3f) else Color(0xFFE3F2FD)
-        ActivityType.IN_VEHICLE -> if (isDark) Color(0xFF311B92).copy(alpha = 0.3f) else Color(0xFFF3E5F5)
+        ActivityType.WALKING -> activityColors.walkingBg
+        ActivityType.RUNNING -> activityColors.runningBg
+        ActivityType.ON_BICYCLE -> activityColors.bicycleBg
+        ActivityType.IN_VEHICLE -> activityColors.vehicleBg
         else -> MaterialTheme.colorScheme.surfaceVariant
     }
 
     val contentColor = when (activityType) {
         ActivityType.STILL -> MaterialTheme.colorScheme.onSecondaryContainer
-        ActivityType.WALKING -> if (isDark) Color(0xFF81C784) else Color(0xFF2E7D32)
-        ActivityType.RUNNING -> if (isDark) Color(0xFFFFB74D) else Color(0xFFE65100)
-        ActivityType.ON_BICYCLE -> if (isDark) Color(0xFF64B5F6) else Color(0xFF1565C0)
-        ActivityType.IN_VEHICLE -> if (isDark) Color(0xFFB39DDB) else Color(0xFF7B1FA2)
+        ActivityType.WALKING -> activityColors.walkingContent
+        ActivityType.RUNNING -> activityColors.runningContent
+        ActivityType.ON_BICYCLE -> activityColors.bicycleContent
+        ActivityType.IN_VEHICLE -> activityColors.vehicleContent
         else -> MaterialTheme.colorScheme.onSurfaceVariant
     }
 

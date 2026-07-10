@@ -5,7 +5,46 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+
+@Immutable
+data class ActivityColors(
+    val walkingBg: Color,
+    val walkingContent: Color,
+    val runningBg: Color,
+    val runningContent: Color,
+    val bicycleBg: Color,
+    val bicycleContent: Color,
+    val vehicleBg: Color,
+    val vehicleContent: Color
+)
+
+private val LightActivityColors = ActivityColors(
+    walkingBg = Color(0xFFE8F5E9),
+    walkingContent = Color(0xFF2E7D32),
+    runningBg = Color(0xFFFFF3E0),
+    runningContent = Color(0xFFE65100),
+    bicycleBg = Color(0xFFE3F2FD),
+    bicycleContent = Color(0xFF1565C0),
+    vehicleBg = Color(0xFFF3E5F5),
+    vehicleContent = Color(0xFF7B1FA2)
+)
+
+private val DarkActivityColors = ActivityColors(
+    walkingBg = Color(0xFF1B3320),
+    walkingContent = Color(0xFF81C784),
+    runningBg = Color(0xFF3E2723),
+    runningContent = Color(0xFFFFB74D),
+    bicycleBg = Color(0xFF0D47A1).copy(alpha = 0.3f),
+    bicycleContent = Color(0xFF64B5F6),
+    vehicleBg = Color(0xFF311B92).copy(alpha = 0.3f),
+    vehicleContent = Color(0xFFB39DDB)
+)
+
+val LocalActivityColors = staticCompositionLocalOf { LightActivityColors }
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFF00E5FF),
@@ -43,9 +82,14 @@ fun MovyTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val activityColors = if (darkTheme) DarkActivityColors else LightActivityColors
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalActivityColors provides activityColors
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content
+        )
+    }
 }
