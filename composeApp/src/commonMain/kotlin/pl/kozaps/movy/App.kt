@@ -6,10 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import pl.kozaps.movy.ui.MainScreen
-import pl.kozaps.movy.ui.MovyTheme
-import pl.kozaps.movy.ui.StatisticsScreen
-import pl.kozaps.movy.ui.MovyBackHandler
+import pl.kozaps.movy.ui.main.MainScreen
+import pl.kozaps.movy.ui.theme.MovyTheme
+import pl.kozaps.movy.ui.statistics.StatisticsScreen
+import pl.kozaps.movy.ui.common.MovyBackHandler
 
 enum class Screen {
     Main, Stats

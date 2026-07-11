@@ -1,4 +1,4 @@
-package pl.kozaps.movy.ui
+package pl.kozaps.movy.ui.common
 
 import android.util.Log
 import androidx.activity.compose.BackHandler

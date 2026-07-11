@@ -1,4 +1,4 @@
-package pl.kozaps.movy.ui
+package pl.kozaps.movy.ui.statistics
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import pl.kozaps.movy.domain.model.ActivityType
+import pl.kozaps.movy.domain.usecase.ActivityStats
+import pl.kozaps.movy.ui.common.MovyBackHandler
+import pl.kozaps.movy.ui.theme.LocalActivityColors
 import kotlin.time.Duration
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package pl.kozaps.movy.ui
+package pl.kozaps.movy.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

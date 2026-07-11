@@ -1,4 +1,4 @@
-package pl.kozaps.movy.ui
+package pl.kozaps.movy.ui.common
 
 import androidx.compose.runtime.Composable
 
