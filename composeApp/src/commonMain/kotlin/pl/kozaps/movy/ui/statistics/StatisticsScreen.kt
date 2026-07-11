@@ -22,7 +22,6 @@ import org.koin.compose.viewmodel.koinViewModel
 import pl.kozaps.movy.domain.model.ActivityType
 import pl.kozaps.movy.domain.usecase.ActivityStats
 import pl.kozaps.movy.domain.usecase.StatisticsState
-import pl.kozaps.movy.ui.common.MovyBackHandler
 import pl.kozaps.movy.ui.theme.MovyTheme
 import pl.kozaps.movy.ui.theme.LocalActivityColors
 import kotlin.time.Duration
@@ -35,8 +34,6 @@ fun StatisticsScreen(
     viewModel: StatisticsViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    MovyBackHandler(onBack = onBackClick)
 
     StatisticsContent(
         state = state,
