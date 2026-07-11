@@ -64,7 +64,7 @@ fun MainContent(
                 actions = {
                     IconButton(onClick = onStatsClick) {
                         Icon(
-                            painter = painterResource(Res.drawable.ic_history),
+                            painter = painterResource(Res.drawable.ic_stats_nav),
                             contentDescription = "Stats",
                             tint = MaterialTheme.colorScheme.primary
                         )
