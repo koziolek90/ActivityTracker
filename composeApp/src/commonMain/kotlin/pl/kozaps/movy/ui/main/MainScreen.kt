@@ -22,18 +22,22 @@ import pl.kozaps.movy.domain.model.ActivityType
 import pl.kozaps.movy.ui.theme.MovyTheme
 import pl.kozaps.movy.ui.theme.LocalActivityColors
 
+data class MainUiState(
+    val currentActivity: ActivityType = ActivityType.STILL,
+    val history: List<String> = emptyList()
+)
+
 @Composable
 fun MainScreen(
     onStatsClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = koinViewModel()
 ) {
-    val activityType by viewModel.currentActivity.collectAsStateWithLifecycle()
+    val currentActivity by viewModel.currentActivity.collectAsStateWithLifecycle()
     val history by viewModel.history.collectAsStateWithLifecycle()
 
     MainContent(
-        activityType = activityType,
-        history = history,
+        state = MainUiState(currentActivity, history),
         onStatsClick = onStatsClick,
         modifier = modifier
     )
@@ -42,8 +46,7 @@ fun MainScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainContent(
-    activityType: ActivityType,
-    history: List<String>,
+    state: MainUiState,
     onStatsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -82,7 +85,7 @@ fun MainContent(
         ) {
             Spacer(modifier = Modifier.height(4.dp))
 
-            StatusCard(activityType)
+            StatusCard(state.currentActivity)
 
             Column(
                 modifier = Modifier.weight(1f),
@@ -104,7 +107,7 @@ fun MainContent(
                     )
                 }
 
-                if (history.isEmpty()) {
+                if (state.history.isEmpty()) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
@@ -121,7 +124,7 @@ fun MainContent(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         contentPadding = PaddingValues(bottom = 16.dp)
                     ) {
-                        items(history) { log ->
+                        items(state.history) { log ->
                             LogItem(log)
                         }
                     }
@@ -251,10 +254,29 @@ private fun ActivityType.toPolishName(): String = when (this) {
     ActivityType.UNKNOWN -> "Nieznana"
 }
 
-@Preview(name = "Light Mode")
-@Preview(name = "Dark Mode", showBackground = true, uiMode = 32) // uiMode = 32 is UI_MODE_NIGHT_YES
+@Preview(name = "Main Content - Light")
+@Preview(name = "Main Content - Dark", showBackground = true, uiMode = 32)
 @Composable
-private fun PreviewStatusCard() {
+private fun PreviewMainContent() {
+    MovyTheme {
+        MainContent(
+            state = MainUiState(
+                currentActivity = ActivityType.WALKING,
+                history = listOf(
+                    "[12:30:15] WALKING (85%)",
+                    "[12:15:00] STILL (100%)",
+                    "[11:45:20] IN_VEHICLE (90%)"
+                )
+            ),
+            onStatsClick = {}
+        )
+    }
+}
+
+@Preview(name = "Status Card Palette - Light")
+@Preview(name = "Status Card Palette - Dark", showBackground = true, uiMode = 32)
+@Composable
+private fun PreviewStatusCardPalette() {
     MovyTheme {
         Column(
             modifier = Modifier.padding(16.dp).background(MaterialTheme.colorScheme.background),

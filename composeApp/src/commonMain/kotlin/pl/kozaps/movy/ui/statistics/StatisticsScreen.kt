@@ -15,16 +15,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import pl.kozaps.movy.domain.model.ActivityType
 import pl.kozaps.movy.domain.usecase.ActivityStats
+import pl.kozaps.movy.domain.usecase.StatisticsState
 import pl.kozaps.movy.ui.common.MovyBackHandler
+import pl.kozaps.movy.ui.theme.MovyTheme
 import pl.kozaps.movy.ui.theme.LocalActivityColors
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatisticsScreen(
     onBackClick: () -> Unit,
@@ -34,6 +38,18 @@ fun StatisticsScreen(
 
     MovyBackHandler(onBack = onBackClick)
 
+    StatisticsContent(
+        state = state,
+        onBackClick = onBackClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun StatisticsContent(
+    state: StatisticsState,
+    onBackClick: () -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -156,5 +172,24 @@ private fun formatDuration(duration: Duration): String {
         h > 0 -> "${h}h ${m}m"
         m > 0 -> "${m}m ${s}s"
         else -> "${s}s"
+    }
+}
+
+@Preview(name = "Statistics - Light")
+@Preview(name = "Statistics - Dark", showBackground = true, uiMode = 32)
+@Composable
+private fun PreviewStatisticsContent() {
+    MovyTheme {
+        StatisticsContent(
+            state = StatisticsState(
+                totalActiveTime = 2.hours + 45.minutes,
+                stats = listOf(
+                    ActivityStats(ActivityType.WALKING, 1.hours + 30.minutes, 0.6f),
+                    ActivityStats(ActivityType.ON_BICYCLE, 45.minutes, 0.3f),
+                    ActivityStats(ActivityType.RUNNING, 30.minutes, 0.1f)
+                )
+            ),
+            onBackClick = {}
+        )
     }
 }
