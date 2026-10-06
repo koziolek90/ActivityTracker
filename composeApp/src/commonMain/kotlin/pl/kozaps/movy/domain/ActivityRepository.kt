@@ -23,10 +23,9 @@ import pl.kozaps.movy.data.model.ActivityRecord
 import pl.kozaps.movy.domain.model.ActivityType
 
 class ActivityRepository(
-    private val activityDao: ActivityDao
+    private val activityDao: ActivityDao,
+    private val repositoryScope: CoroutineScope
 ) {
-    private val repositoryScope = CoroutineScope(Dispatchers.IO)
-
     private val _activityEvents = MutableSharedFlow<ActivityType>(extraBufferCapacity = 64)
     val activityEvents: SharedFlow<ActivityType> = _activityEvents.asSharedFlow()
 
